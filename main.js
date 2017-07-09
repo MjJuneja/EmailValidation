@@ -4,7 +4,7 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-function validate(Value,index){
+function validate(Value,index,msg="invalid"){
 //    var index =0;
 //   var emails = document.getElementsByClassName("email");
 //    Array.prototype.forEach.apply(emails,[function(x){
@@ -15,7 +15,7 @@ function validate(Value,index){
          
            ele.classList.add("red");
            ele.classList.remove("green");
-           ele.innerHTML = "invalid"
+           ele.innerHTML = msg;
        }
         else{
 //           var ele= document.getElementById("result"+index)
@@ -35,15 +35,22 @@ window.addEventListener("load",function(){
 //    function stop(){
 //        clearInterval(func);
 //    }
-    
+    var msg="";
     var emails = document.getElementsByClassName("email");
     Array.prototype.forEach.apply(emails,[function(x){
         x.addEventListener("keyup",function(){
             var index = Array.prototype.findIndex.apply(emails,[function(obj){
                 return obj==x;
             }]);
+            if(this.getAttribute("data-message")!=undefined){
+             msg = this.getAttribute("data-message");
+             validate(x.value,index+1,msg);}
+            else{
+                 validate(x.value,index+1);
+            }
 //            console.log(index);
-            validate(x.value,index+1);
+           
+            
         })
     }]);
 });
